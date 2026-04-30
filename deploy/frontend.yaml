@@ -35,3 +35,5 @@ objects:
         modules:
           - id: scheduler-ui
             module: "./RootApp"
+            routes:
+              - pathname: /staging/scheduler-ui
