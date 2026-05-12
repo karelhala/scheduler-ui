@@ -24,6 +24,7 @@ const SchedulerModal: React.FC<SchedulerModalProps> = ({
       onClose={onClose}
       variant={variant}
       className={className}
+      aria-label={title}
     >
       {children}
     </Modal>
