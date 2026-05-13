@@ -1,4 +1,26 @@
-
+/**
+ * SchedulerPage — DEV HARNESS ONLY
+ *
+ * Production architecture
+ * ───────────────────────
+ * GlobalScheduler (this app) will be added to insights-chrome (the HCC shell)
+ * the same way the NotificationsDrawer is — chrome mounts it via ScalprumComponent
+ * using the federated module exposed at './GlobalScheduler'. Consumer apps never
+ * import or open the sidebar themselves.
+ *
+ * Consumer apps (e.g. Cost Management, Advisor) import only the hook:
+ *
+ *   import useSchedulerModal from 'scheduler-ui/useSchedulerModal';
+ *
+ *   const wizard = useSchedulerModal();
+ *   <Button onClick={() => wizard.open({ service: 'Cost Management' })}>
+ *     Schedule report
+ *   </Button>
+ *   <ScheduleReportWizard isOpen={wizard.isOpen} onClose={wizard.close} ... />
+ *
+ * This page exists only to exercise GlobalScheduler and useSchedulerModal
+ * locally during development — it is not part of the production integration.
+ */
 import React, { useState } from 'react';
 import {
   Alert,
@@ -15,12 +37,11 @@ import ScheduleReportWizard from '../ScheduleReportWizard/ScheduleReportWizard';
 import { useSchedulerModal } from '../../hooks/useSchedulerModal';
 
 const SchedulerPage: React.FC = () => {
-  // Pattern 1: standalone wizard — no sidebar required.
-  // This is how a consumer page triggers scheduling
-  // directly from an Export button without opening the full sidebar.
+  // Simulates how a consumer app uses the hook to open the scheduling wizard.
   const wizard = useSchedulerModal();
 
-  // Pattern 2: sidebar — opened independently.
+  // Dev-harness only: toggle the sidebar for local testing.
+  // In production, chrome controls the sidebar open state.
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
@@ -31,8 +52,10 @@ const SchedulerPage: React.FC = () => {
           isInline
           title="Development harness — not the final integration"
         >
-          This page is used to test <strong>useSchedulerModal</strong> and{' '}
-          <strong>GlobalScheduler</strong> together. Later the <strong>GlobalScheduler</strong> component would be called directly in RedHat Console by clicking the Scheduler in the options menu.
+          In production, <strong>GlobalScheduler</strong> is mounted by insights-chrome
+          (like the NotificationsDrawer). Consumer apps only import{' '}
+          <strong>useSchedulerModal</strong> to open the scheduling wizard from their
+          own pages.
         </Alert>
       </PageSection>
       <PageSection>
@@ -49,7 +72,7 @@ const SchedulerPage: React.FC = () => {
               Get started by configuring your first scheduled report.
             </EmptyStateBody>
             <EmptyStateActions>
-              {/* Pattern 1: open the wizard directly — sidebar stays closed */}
+              {/* Consumer pattern: open the wizard modal directly — no sidebar needed */}
               <Button
                 variant="primary"
                 onClick={() =>
@@ -63,14 +86,16 @@ const SchedulerPage: React.FC = () => {
               >
                 Schedule recurring report
               </Button>
-              {/* Pattern 2: open the GlobalScheduler sidebar */}
+              {/* Dev-harness only: preview the sidebar (chrome does this in production) */}
               <Button variant="secondary" onClick={() => setIsSidebarOpen(true)}>
-                Open Global Scheduler
+                Preview Global Scheduler sidebar
               </Button>
             </EmptyStateActions>
           </EmptyState>
         </PageSection>
       </PageSection>
+
+      {/* Standalone wizard — rendered here just as a consumer app would render it */}
       <ScheduleReportWizard
         isOpen={wizard.isOpen}
         onClose={wizard.close}

@@ -52,7 +52,7 @@ export interface UseSchedulerModalReturn {
  *
  *   // In fec.config.js (scheduler-ui):
  *   exposes: {
- *     './frontendModules/useSchedulerModal': './src/hooks/useSchedulerModal',
+ *     './useSchedulerModal': './src/hooks/useSchedulerModal',
  *   }
  *
  *   // In a consumer app (e.g. Cost Management):
