@@ -1,6 +1,5 @@
 /* ─── Drawer full-height layout ─────────────────────────────────────── */
 
-/* The Drawer wrapper and its main row must stretch to fill the viewport */
 .global-scheduler-drawer,
 .global-scheduler-drawer .pf-v6-c-drawer__main {
   height: 100%;
@@ -10,13 +9,11 @@
 .global-scheduler-drawer .pf-v6-c-drawer__panel {
   box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
   border-left: 1px solid var(--pf-t--global--border--color--default);
-  /* Pin the panel to full viewport height so it never shrinks with content */
   height: 100vh;
   position: sticky;
   top: 0;
 }
 
-/* PF wraps panel content in this element — must also be full height */
 .scheduler-ui-panel-content {
   height: 100%;
 }
@@ -69,17 +66,8 @@
 }
 
 /* Strip PF6's default grey box backgrounds from every tab state */
-.global-scheduler-drawer .pf-v6-c-tabs__link,
-.global-scheduler-drawer .pf-v6-c-tabs__link:hover,
-.global-scheduler-drawer .pf-v6-c-tabs__link:focus,
-.global-scheduler-drawer .pf-v6-c-tabs__link:focus-visible,
-.global-scheduler-drawer .pf-v6-c-tabs__item.pf-m-current .pf-v6-c-tabs__link,
-.global-scheduler-drawer .pf-v6-c-tabs__item.pf-m-current .pf-v6-c-tabs__link:hover {
-  background-color: transparent !important;
-}
-
-/* Inactive tab text */
 .global-scheduler-drawer .pf-v6-c-tabs__link {
+  background-color: transparent !important;
   color: var(--pf-t--global--text--color--subtle);
   font-size: 16px;
   font-weight: 400;
@@ -87,17 +75,11 @@
   margin-right: 32px;
 }
 
-/* Active tab text */
-.global-scheduler-drawer .pf-v6-c-tabs__item.pf-m-current .pf-v6-c-tabs__link {
-  color: var(--pf-t--global--text--color--regular);
-}
-
-/* Hover: just darken text, no background */
+.global-scheduler-drawer .pf-v6-c-tabs__item.pf-m-current .pf-v6-c-tabs__link,
 .global-scheduler-drawer .pf-v6-c-tabs__item:not(.pf-m-current) .pf-v6-c-tabs__link:hover {
   color: var(--pf-t--global--text--color--regular);
 }
 
-/* Bottom border on the tab bar */
 .global-scheduler-drawer .pf-v6-c-tabs {
   border-bottom: 1px solid var(--pf-t--global--border--color--default);
 }
@@ -106,7 +88,6 @@
   border-bottom: none;
 }
 
-/* Help icon inline in "Reports history" tab title */
 .scheduler-ui-tab-help-icon {
   vertical-align: middle;
   margin-left: 4px;
@@ -124,15 +105,6 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-}
-
-/* Toolbar must not grow — only the table area scrolls */
-.global-scheduler-drawer .pf-v6-c-toolbar {
-  flex-shrink: 0;
-}
-
-.global-scheduler-drawer .tabs-container {
-  flex-shrink: 0;
 }
 
 /* ─── Toolbar ───────────────────────────────────────────────────────── */
@@ -155,24 +127,18 @@
   border: none;
 }
 
-.global-scheduler-drawer .pf-v6-c-table thead {
+.global-scheduler-drawer .pf-v6-c-table :is(thead, tbody) {
   border-bottom: 1px solid var(--pf-t--global--border--color--default);
+}
+
+.global-scheduler-drawer .pf-v6-c-table :is(th, td) {
+  font-size: 14px;
+  color: var(--pf-t--global--text--color--regular);
 }
 
 .global-scheduler-drawer .pf-v6-c-table th {
-  font-size: 14px;
   font-weight: 700;
-  color: var(--pf-t--global--text--color--regular);
   background-color: var(--pf-t--global--background--color--primary--default);
-}
-
-.global-scheduler-drawer .pf-v6-c-table tbody {
-  border-bottom: 1px solid var(--pf-t--global--border--color--default);
-}
-
-.global-scheduler-drawer .pf-v6-c-table td {
-  font-size: 14px;
-  color: var(--pf-t--global--text--color--regular);
 }
 
 .global-scheduler-drawer .pf-v6-c-table td a {
@@ -195,11 +161,14 @@
   padding: 0;
 }
 
+/* Inherit font-size and colour so child elements don't need to repeat them */
 .global-scheduler-drawer .expanded-content {
   padding: 24px;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  font-size: 14px;
+  color: var(--pf-t--global--text--color--regular);
 }
 
 .global-scheduler-drawer .expanded-content > div {
@@ -208,15 +177,8 @@
 }
 
 .global-scheduler-drawer .expanded-content strong {
-  font-size: 14px;
   font-weight: 700;
-  color: var(--pf-t--global--text--color--regular);
   margin-bottom: 4px;
-}
-
-.global-scheduler-drawer .expanded-content div > div {
-  font-size: 14px;
-  color: var(--pf-t--global--text--color--regular);
 }
 
 /* ─── Report row ────────────────────────────────────────────────────── */
@@ -263,14 +225,6 @@
   font-size: 16px;
 }
 
-.scheduler-ui-status--running svg {
-  color: var(--pf-t--global--color--brand--default);
-}
-
-.scheduler-ui-status--failed svg {
-  color: var(--pf-t--global--color--status--danger--default);
-}
-
-.scheduler-ui-status--completed svg {
-  color: var(--pf-t--global--color--status--success--default);
-}
+.scheduler-ui-status--running svg  { color: var(--pf-t--global--color--brand--default); }
+.scheduler-ui-status--failed svg   { color: var(--pf-t--global--color--status--danger--default); }
+.scheduler-ui-status--completed svg { color: var(--pf-t--global--color--status--success--default); }
