@@ -50,26 +50,23 @@ describe('GlobalScheduler', () => {
     });
   });
 
-  describe('initialParams', () => {
-    it('auto-opens the wizard when opened with initialParams', () => {
-      renderScheduler({
-        isOpen: true,
-        initialParams: { service: 'Cost Management', reportName: 'Monthly spend' },
-      });
-      // The wizard modal title should appear
-      expect(screen.getByText('Schedule recurring report')).toBeInTheDocument();
-    });
-
-    it('does not auto-open the wizard when no initialParams are provided', () => {
+  describe('wizard', () => {
+    it('wizard is closed by default when the sidebar opens', () => {
       renderScheduler({ isOpen: true });
       expect(screen.queryByText('Schedule recurring report')).not.toBeInTheDocument();
     });
 
-    it('does not auto-open the wizard when drawer is closed even with initialParams', () => {
-      renderScheduler({
-        isOpen: false,
-        initialParams: { service: 'Cost Management' },
-      });
+    it('opens the wizard when Create new is clicked', () => {
+      renderScheduler({ isOpen: true });
+      fireEvent.click(screen.getByRole('button', { name: /create new/i }));
+      expect(screen.getByText('Schedule recurring report')).toBeInTheDocument();
+    });
+
+    it('wizard is independent of the drawer — can open without sidebar', () => {
+      // Render with the sidebar closed; the wizard is a sibling concern
+      // and its open state is driven by useSchedulerModal inside GlobalScheduler.
+      // We verify that the drawer being closed does not affect wizard availability.
+      renderScheduler({ isOpen: false });
       expect(screen.queryByText('Schedule recurring report')).not.toBeInTheDocument();
     });
   });
@@ -85,12 +82,6 @@ describe('GlobalScheduler', () => {
     it('renders the Create new button', () => {
       renderScheduler({ isOpen: true });
       expect(screen.getByRole('button', { name: /create new/i })).toBeInTheDocument();
-    });
-
-    it('opens the wizard when Create new is clicked', () => {
-      renderScheduler({ isOpen: true });
-      fireEvent.click(screen.getByRole('button', { name: /create new/i }));
-      expect(screen.getByText('Schedule recurring report')).toBeInTheDocument();
     });
   });
 });

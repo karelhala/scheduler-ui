@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   Drawer,
   DrawerActions,
@@ -20,25 +20,23 @@ import { EllipsisVIcon, OutlinedQuestionCircleIcon } from '@patternfly/react-ico
 import ScheduleReportWizard from '../ScheduleReportWizard/ScheduleReportWizard';
 import SchedulerReportsTable from './SchedulerReportsTable';
 import { useSchedulerState } from '../../hooks/useSchedulerState';
-import type { SchedulerModalParams } from '../../hooks/useSchedulerModal';
+import { useSchedulerModal } from '../../hooks/useSchedulerModal';
 import './GlobalScheduler.css';
 
 interface GlobalSchedulerProps {
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
-  /**
-   * Optional pre-fill params supplied by useSchedulerModal.
-   * When provided, the wizard opens automatically and its fields are
-   * pre-populated with the given values.
-   */
-  initialParams?: SchedulerModalParams;
 }
 
-const GlobalScheduler: React.FC<GlobalSchedulerProps> = ({ isOpen, onClose, children, initialParams }) => {
+const GlobalScheduler: React.FC<GlobalSchedulerProps> = ({ isOpen, onClose, children }) => {
+  // Internal wizard state — decoupled from the drawer open state.
+  // Consumers who want to open the wizard without the sidebar should use
+  // useSchedulerModal + <ScheduleReportWizard> directly in their own page.
+  const wizard = useSchedulerModal();
+
   const {
     activeTabKey, setActiveTabKey,
-    isWizardOpen, setIsWizardOpen,
     isHeaderMenuOpen, setIsHeaderMenuOpen,
     isFilterNameOpen, setIsFilterNameOpen,
     isFilterOpen, setIsFilterOpen,
@@ -47,13 +45,6 @@ const GlobalScheduler: React.FC<GlobalSchedulerProps> = ({ isOpen, onClose, chil
     expandedReportIds, toggleRowExpanded,
     sortedReports,
   } = useSchedulerState();
-
-  // When the drawer opens with pre-fill params, auto-open the wizard.
-  useEffect(() => {
-    if (isOpen && initialParams) {
-      setIsWizardOpen(true);
-    }
-  }, [isOpen, initialParams]);
 
   const panelContent = (
     <DrawerPanelContent isResizable defaultSize="600px" minSize="400px" maxSize="800px" className="scheduler-ui-panel-content">
@@ -116,14 +107,14 @@ const GlobalScheduler: React.FC<GlobalSchedulerProps> = ({ isOpen, onClose, chil
         onFilterNameOpenChange={setIsFilterNameOpen}
         isFilterOpen={isFilterOpen}
         onFilterOpenChange={setIsFilterOpen}
-        onCreateNew={() => setIsWizardOpen(true)}
+        onCreateNew={() => wizard.open()}
       />
 
       <ScheduleReportWizard
-        isOpen={isWizardOpen}
-        onClose={() => setIsWizardOpen(false)}
+        isOpen={wizard.isOpen}
+        onClose={wizard.close}
         onSave={(data) => console.log('Saving report:', data)}
-        initialValues={initialParams}
+        initialValues={wizard.params}
       />
     </DrawerPanelContent>
   );

@@ -1,23 +1,5 @@
-/**
- * SchedulerPage — DEV HARNESS ONLY
- *
- * This page exists solely to render GlobalScheduler in isolation during
- * development. It is NOT the intended delivery mechanism for the component.
- *
- * Planned production usage:
- *   GlobalScheduler will be exposed as its own federated module in fec.config.js:
- *
- *     exposes: {
- *       './RootApp':        './src/AppEntry',
- *       './GlobalScheduler': './src/Components/GlobalScheduler/GlobalScheduler',
- *     }
- *
- *   Consumer micro-frontends (e.g. Cost Management, Advisor) will then lazy-import
- *   the drawer directly, without loading the full scheduler-ui app:
- *
- *     const GlobalScheduler = React.lazy(() => import('scheduler-ui/GlobalScheduler'));
- */
-import React from 'react';
+
+import React, { useState } from 'react';
 import {
   Alert,
   Button,
@@ -29,18 +11,20 @@ import {
 } from '@patternfly/react-core';
 import { CalendarAltIcon } from '@patternfly/react-icons';
 import GlobalScheduler from '../GlobalScheduler/GlobalScheduler';
+import ScheduleReportWizard from '../ScheduleReportWizard/ScheduleReportWizard';
 import { useSchedulerModal } from '../../hooks/useSchedulerModal';
 
 const SchedulerPage: React.FC = () => {
-  // Use useSchedulerModal exactly as a consumer app would.
-  const scheduler = useSchedulerModal();
+  // Pattern 1: standalone wizard — no sidebar required.
+  // This is how a consumer page triggers scheduling
+  // directly from an Export button without opening the full sidebar.
+  const wizard = useSchedulerModal();
+
+  // Pattern 2: sidebar — opened independently.
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <GlobalScheduler
-      isOpen={scheduler.isOpen}
-      onClose={scheduler.close}
-      initialParams={scheduler.params}
-    >
+    <GlobalScheduler isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)}>
       <PageSection>
         <Alert
           variant="info"
@@ -65,15 +49,11 @@ const SchedulerPage: React.FC = () => {
               Get started by configuring your first scheduled report.
             </EmptyStateBody>
             <EmptyStateActions>
-              {/* Plain open — no pre-fill */}
-              <Button variant="primary" onClick={() => scheduler.open()}>
-                Schedule recurring report
-              </Button>
-              {/* Demo: open with pre-filled params (simulates a consumer app passing context) */}
+              {/* Pattern 1: open the wizard directly — sidebar stays closed */}
               <Button
-                variant="secondary"
+                variant="primary"
                 onClick={() =>
-                  scheduler.open({
+                  wizard.open({
                     service: 'Cost Management',
                     reportName: 'Monthly spend report',
                     fileType: 'PDF',
@@ -81,12 +61,22 @@ const SchedulerPage: React.FC = () => {
                   })
                 }
               >
-                Schedule (pre-filled demo using useSchedulerModal hook)
+                Schedule recurring report
+              </Button>
+              {/* Pattern 2: open the GlobalScheduler sidebar */}
+              <Button variant="secondary" onClick={() => setIsSidebarOpen(true)}>
+                Open Global Scheduler
               </Button>
             </EmptyStateActions>
           </EmptyState>
         </PageSection>
       </PageSection>
+      <ScheduleReportWizard
+        isOpen={wizard.isOpen}
+        onClose={wizard.close}
+        onSave={(data) => console.log('Saving report:', data)}
+        initialValues={wizard.params}
+      />
     </GlobalScheduler>
   );
 };

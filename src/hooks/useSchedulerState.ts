@@ -52,7 +52,6 @@ export const MOCK_SCHEDULED_REPORTS: ScheduledReport[] = [
 
 export function useSchedulerState() {
   const [activeTabKey, setActiveTabKey] = useState<string | number>(0);
-  const [isWizardOpen, setIsWizardOpen] = useState(false);
   const [isFilterNameOpen, setIsFilterNameOpen] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isHeaderMenuOpen, setIsHeaderMenuOpen] = useState(false);
@@ -93,9 +92,6 @@ export function useSchedulerState() {
     // tabs
     activeTabKey,
     setActiveTabKey,
-    // wizard
-    isWizardOpen,
-    setIsWizardOpen,
     // filter dropdowns
     isFilterNameOpen,
     setIsFilterNameOpen,
