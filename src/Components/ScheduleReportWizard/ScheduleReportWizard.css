@@ -1,0 +1,267 @@
+/* ─── Modal ─────────────────────────────────────────────────────────── */
+
+.schedule-report-wizard-modal.pf-v6-c-modal-box {
+  --pf-v6-c-modal-box--BackgroundColor: var(--pf-t--global--background--color--primary--default);
+  --pf-v6-c-modal-box--BorderRadius: 24px;
+  border-radius: 24px;
+  overflow: hidden;
+  /* Inherit Red Hat Text for the whole modal; Display headings override below */
+  font-family: 'Red Hat Text', 'RedHatText', sans-serif;
+}
+
+.schedule-report-wizard-modal .pf-v6-c-modal-box__header {
+  background-color: var(--pf-t--global--background--color--secondary--default);
+  border-bottom: 1px solid var(--pf-t--global--border--color--default);
+  border-radius: 24px 24px 0 0;
+  padding: 24px;
+}
+
+.schedule-report-wizard-modal .pf-v6-c-modal-box__title {
+  font-family: 'Red Hat Display', 'RedHatDisplay', sans-serif;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 36.4px;
+  color: var(--pf-t--global--text--color--regular);
+  height: 36.4px;
+}
+
+.schedule-report-wizard-modal .pf-v6-c-modal-box__description {
+  font-size: 14px;
+  line-height: 21px;
+  color: var(--pf-t--global--text--color--subtle);
+  margin-top: 8px;
+  height: 24px;
+}
+
+.schedule-report-wizard-modal .pf-v6-c-modal-box__body {
+  padding: 0;
+}
+
+/* ─── Wizard layout ─────────────────────────────────────────────────── */
+
+.schedule-report-wizard {
+  --pf-v6-c-wizard__nav--BackgroundColor: var(--pf-t--global--background--color--secondary--default);
+  --pf-v6-c-wizard__nav--Width: 250px;
+  height: 100% !important;
+  min-height: 600px !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.schedule-report-wizard .pf-v6-c-wizard__outer-wrap,
+.schedule-report-wizard .pf-v6-c-wizard__inner-wrap {
+  display: flex !important;
+  flex: 1 !important;
+  min-height: 0 !important;
+}
+
+.schedule-report-wizard .pf-v6-c-wizard__inner-wrap {
+  width: 100% !important;
+}
+
+/* Modal provides its own header */
+.schedule-report-wizard .pf-v6-c-wizard__header {
+  display: none !important;
+}
+
+/* ─── Navigation sidebar ────────────────────────────────────────────── */
+
+.schedule-report-wizard .pf-v6-c-wizard__nav {
+  background-color: var(--pf-t--global--background--color--secondary--default) !important;
+  padding: 24px !important;
+  border-right: 1px solid var(--pf-t--global--border--color--default) !important;
+  width: 250px !important;
+}
+
+.schedule-report-wizard .pf-v6-c-wizard__nav-list {
+  padding: 0 !important;
+  margin: 0 !important;
+  list-style: none !important;
+  counter-reset: wizard-step !important;
+}
+
+.schedule-report-wizard .pf-v6-c-wizard__nav-item {
+  margin-bottom: 4px !important;
+  list-style: none !important;
+}
+
+.schedule-report-wizard .pf-v6-c-wizard__nav-link {
+  width: 100% !important;
+  padding: 8px !important;
+  border-radius: 6px !important;
+  background: transparent !important;
+  border: none !important;
+  text-align: left !important;
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 4px !important;
+  font-size: 14px !important;
+  line-height: 21px !important;
+  color: var(--pf-t--global--text--color--subtle) !important;
+  cursor: pointer !important;
+  position: relative !important;
+}
+
+.schedule-report-wizard .pf-v6-c-wizard__nav-link-main {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 4px !important;
+  width: 100% !important;
+}
+
+/* Step number bubbles */
+.schedule-report-wizard .pf-v6-c-wizard__nav-link-main::before {
+  content: counter(wizard-step) !important;
+  counter-increment: wizard-step !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 24px !important;
+  height: 24px !important;
+  min-width: 24px !important;
+  border-radius: 50% !important;
+  background-color: var(--pf-t--global--border--color--default) !important;
+  color: var(--pf-t--global--text--color--regular) !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  margin-right: 4px !important;
+  flex-shrink: 0 !important;
+  line-height: 1 !important;
+}
+
+.schedule-report-wizard .pf-v6-c-wizard__nav-link.pf-m-current {
+  background-color: rgba(199, 199, 199, 0.25) !important;
+  color: var(--pf-t--global--text--color--regular) !important;
+}
+
+.schedule-report-wizard .pf-v6-c-wizard__nav-link.pf-m-current .pf-v6-c-wizard__nav-link-main::before {
+  background-color: var(--pf-t--global--color--brand--default) !important;
+  color: var(--pf-t--global--background--color--primary--default) !important;
+}
+
+.schedule-report-wizard .pf-v6-c-wizard__nav-link.pf-m-disabled {
+  color: var(--pf-t--global--text--color--disabled) !important;
+  cursor: not-allowed !important;
+}
+
+.schedule-report-wizard .pf-v6-c-wizard__nav-link.pf-m-disabled .pf-v6-c-wizard__nav-link-main::before {
+  background-color: var(--pf-t--global--border--color--default) !important;
+  color: var(--pf-t--global--text--color--disabled) !important;
+}
+
+/* ─── Main content area ─────────────────────────────────────────────── */
+
+.schedule-report-wizard .pf-v6-c-wizard__main {
+  padding: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
+  min-width: 0 !important;
+}
+
+.schedule-report-wizard .pf-v6-c-wizard__main-body {
+  padding: 24px !important;
+  flex: 1 !important;
+  overflow-y: auto !important;
+}
+
+.schedule-report-wizard .pf-v6-c-wizard__title {
+  font-family: 'Red Hat Display', 'RedHatDisplay', sans-serif !important;
+  font-size: 18px !important;
+  font-weight: 500 !important;
+  color: var(--pf-t--global--text--color--regular) !important;
+  margin-bottom: 24px !important;
+}
+
+/* ─── Footer ────────────────────────────────────────────────────────── */
+
+.schedule-report-wizard .pf-v6-c-wizard__footer {
+  padding: 24px !important;
+  border-top: 1px solid var(--pf-t--global--border--color--default) !important;
+  border-radius: 0 0 24px 0 !important;
+  display: flex !important;
+  gap: 16px !important;
+  min-height: 84px !important;
+  align-items: center !important;
+}
+
+/* Shared button base — use .pf-m-* to match both .pf-v6-c-button and plain <button> */
+.schedule-report-wizard .pf-v6-c-wizard__footer :is(.pf-v6-c-button, button) {
+  font-size: 14px !important;
+  line-height: 21px !important;
+  border-radius: 999px !important;
+  padding: 8px 24px !important;
+  min-height: 37px !important;
+}
+
+.schedule-report-wizard .pf-v6-c-wizard__footer .pf-m-primary {
+  background-color: var(--pf-t--global--color--brand--default) !important;
+  border-color: var(--pf-t--global--color--brand--default) !important;
+  color: var(--pf-t--global--background--color--primary--default) !important;
+}
+
+.schedule-report-wizard .pf-v6-c-wizard__footer .pf-m-primary:hover:not(:disabled) {
+  background-color: var(--pf-t--global--color--brand--hover) !important;
+  border-color: var(--pf-t--global--color--brand--hover) !important;
+}
+
+.schedule-report-wizard .pf-v6-c-wizard__footer .pf-m-primary:disabled {
+  background-color: var(--pf-t--global--border--color--default) !important;
+  border-color: var(--pf-t--global--border--color--default) !important;
+  color: var(--pf-t--global--text--color--subtle) !important;
+  cursor: not-allowed !important;
+  opacity: 1 !important;
+}
+
+.schedule-report-wizard .pf-v6-c-wizard__footer .pf-m-secondary {
+  background-color: var(--pf-t--global--border--color--default) !important;
+  border-color: var(--pf-t--global--border--color--default) !important;
+  color: var(--pf-t--global--text--color--subtle) !important;
+}
+
+.schedule-report-wizard .pf-v6-c-wizard__footer .pf-m-secondary:hover:not(:disabled) {
+  background-color: var(--pf-t--global--text--color--disabled) !important;
+  border-color: var(--pf-t--global--text--color--disabled) !important;
+}
+
+.schedule-report-wizard .pf-v6-c-wizard__footer .pf-m-link {
+  color: var(--pf-t--global--color--brand--default) !important;
+  background-color: transparent !important;
+  border: none !important;
+  padding: 8px !important;
+  border-radius: 0 !important;
+}
+
+.schedule-report-wizard .pf-v6-c-wizard__footer .pf-m-link:hover {
+  color: var(--pf-t--global--color--brand--hover) !important;
+  text-decoration: underline !important;
+}
+
+/* ─── Form fields ───────────────────────────────────────────────────── */
+
+.schedule-report-wizard .pf-v6-c-form__group {
+  margin-bottom: 24px !important;
+}
+
+.schedule-report-wizard .pf-v6-c-form__label {
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  line-height: 21px !important;
+  color: var(--pf-t--global--text--color--regular) !important;
+  margin-bottom: 8px !important;
+  display: block !important;
+}
+
+.schedule-report-wizard .pf-v6-c-form-control,
+.schedule-report-wizard .pf-v6-c-menu-toggle {
+  font-size: 14px !important;
+  line-height: 21px !important;
+  border: 1px solid var(--pf-t--global--border--color--default) !important;
+  border-radius: 6px !important;
+  padding: 8px 16px !important;
+  min-height: 37px !important;
+}
+
+.schedule-report-wizard .pf-v6-c-form-control::placeholder {
+  color: var(--pf-t--global--text--color--subtle) !important;
+}
